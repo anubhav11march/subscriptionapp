@@ -4,6 +4,7 @@ const path =require('path');
 const Vendorcontroller = require('../controllers/vendor');
 const { auth } = require('../middleware/vendorauth');
 const multer=require('multer');
+const { UploadImageToGallery } = require('sib-api-v3-sdk');
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -42,6 +43,27 @@ router.patch(
     auth,
     upload.none(),
     Vendorcontroller.editProduct
+)
+
+router.get(
+    '/customers',
+    auth,
+    upload.none(),
+    Vendorcontroller.getCustomers
+)
+
+router.get(
+    '/requests',
+    auth,
+    upload.none(),
+    Vendorcontroller.getRequests
+)
+
+router.post(
+    '/handlerequest',
+    auth,
+    upload.none(),
+    Vendorcontroller.handlerequests
 )
 
 module.exports=router;

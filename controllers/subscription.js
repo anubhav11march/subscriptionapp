@@ -27,11 +27,12 @@ exports.Subscribe = async (req, res) => {
             quantity: parseInt(quantity),
             interval,
             amount: parseInt(amount),
-            vendor: product.vendorid
+            vendor: product.vendorid,
+            status:false
         });
 
         await usersubscribe.save();
-        res.status(200).json(successmessage('Successfuly Subscribed!'));
+        res.status(200).json(successmessage('Successfuly Subscribed!',usersubscribe));
 
     } catch (err) {
         res.status(400).json(errormessage(err.message));
@@ -46,7 +47,7 @@ exports.getSubscriptions = async (req, res) => {
             {$match:{userid:user}},
             {
                 $group: {
-                    userid: "$userid",
+                    _id:"$userid",
                     products: { $push: "$productid" }
                 }
             },
@@ -97,7 +98,7 @@ exports.editSubscription=async(req,res)=>{
             amount
         }
 
-        await usersubscription.findOneAndUpdate(findConditions,{$set:updates},{$new:true});
+        let usersub=await usersubscription.findOneAndUpdate(findConditions,{$set:updates},{$new:true});
 
         res.status(200).json(successmessage('Subscription Updated successfully!',usersub));
 
@@ -131,7 +132,7 @@ exports.getSubscription=async(req,res)=>{
                 interval:"$interval",
                 amount:"$amount",
                 product_details:{$first:"$product_details"},
-                vendor_details:{$first:"vendor_details"}
+                vendor_details:{$first:"$vendor_details"}
             }}
         ]).allowDiskUse(true);
 

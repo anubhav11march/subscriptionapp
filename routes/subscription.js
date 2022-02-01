@@ -29,11 +29,18 @@ router.get(
     Subscriptioncontroller.getSubscriptions
 )
 
-router.get(
-    '/getsubscription',
+router.patch(
+    '/editsubscription',
     auth,
-    Subscriptioncontroller.getSubscription
+    upload.none(),
+    Subscriptioncontroller.editSubscription
 )
+
+// router.get(
+//     '/getsubscription',
+//     auth,
+//     Subscriptioncontroller.getSubscription
+// )
 
 module.exports=router;
 

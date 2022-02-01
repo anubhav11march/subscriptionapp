@@ -6,7 +6,11 @@ const UserSubscriptionSchema= new mongoose.Schema({
     vendor:mongoose.Types.ObjectId,
     quantity:Number,
     interval:String,
-    amount:Number
+    amount:Number,
+    status:{
+        type:Boolean,
+        default:false
+    }
 },{timestamps:true})
 
 UserSubscriptionSchema.index({username:1,phoneno:1});

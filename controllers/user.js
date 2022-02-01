@@ -7,6 +7,7 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid')
 const path = require('path');
 const mongoose = require('mongoose');
+const vendorproduct = require('../model/vendorproduct');
 
 exports.UserSignUp = async (req, res) => {
     try {
@@ -160,6 +161,23 @@ exports.UpdateDetails = async (req, res) => {
         let updatedUser = await User.findOneAndUpdate(findConditions, { $set: updates }, { new: true });
         res.status(200).json(successmessage('Updated Successfuly!', updatedUser));
     } catch (err) {
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.getCategoryProducts=async(req,res)=>{
+    try{
+        let {category}=req.params;
+        
+        let findConditions={};
+        if(category){
+            findConditions={
+                category
+            };
+        }
+        let products=await vendorproduct.find(findConditions);
+        res.status(200).json(successmessage(products));
+    }catch(err){
         res.status(400).json(errormessage(err.message));
     }
 }

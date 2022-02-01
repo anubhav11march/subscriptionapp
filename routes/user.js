@@ -34,4 +34,11 @@ router.post(
     Usercontroller.UpdateDetails
 )
 
+router.get(
+    '/categoryproducts',
+    auth,
+    upload.none(),
+    Usercontroller.getCategoryProducts
+)
+
 module.exports=router;
