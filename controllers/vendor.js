@@ -40,8 +40,8 @@ exports.UpdatebankDetails = async (req, res) => {
 
 exports.addProduct=async(req,res)=>{
     try{
-        let {productimage,category,productname,price,unit}=req.body;
-        if(!productimage||!category||!productname||!price||!unit){
+        let {category,productname,price,unit}=req.body;
+        if(!category||!productname||!price||!unit){
             return res.status(400).json(errormessage("All fields should be present!"));
         }
         let {user}=req;
@@ -54,7 +54,6 @@ exports.addProduct=async(req,res)=>{
             name:productname,
             price:parseInt(price),
             unit,
-            image:productimage,
             vendorid:user,
             vendorname:vendordetails.name,
             vendorphoneno:vendordetails.phoneno
@@ -83,9 +82,9 @@ exports.editProduct=async(req,res)=>{
     try{
         let {user}=req;
         user=mongoose.Types.ObjectId(JSON.parse(user));
-        let {productid,category,name,price,unit,image}=req.body;
+        let {productid,category,name,price,unit}=req.body;
 
-        if(!productid||!category||!name||!price||!unit||!image){
+        if(!productid||!category||!name||!price||!unit){
             return res.status(400).json(errormessage("All fields shpuld be present!"));
         }
 
@@ -93,8 +92,7 @@ exports.editProduct=async(req,res)=>{
             category,
             name,
             price,
-            unit,
-            image
+            unit
         }
 
         let updatedproduct=await Vendorproduct.findOneAndUpdate({_id:mongoose.Types.ObjectId(productid),vendorid:user},{$set:updates},{new:true});

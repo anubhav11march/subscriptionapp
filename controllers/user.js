@@ -122,9 +122,9 @@ exports.LoginUser = async (req, res) => {
 exports.UpdateDetails = async (req, res) => {
     try {
         let { user } = req;
-        let { name, email, address, pincode, image, type, shopname } = req.body;
+        let { name, email, address, pincode, type, shopname } = req.body;
 
-        if (!name || !email || !address || !pincode || !image || !type) {
+        if (!name || !email || !address || !pincode || !type) {
             return res.status(400).json(errormessage('All fields should be present!'));
         }
 
@@ -145,8 +145,7 @@ exports.UpdateDetails = async (req, res) => {
             name,
             email,
             address,
-            pincode,
-            image
+            pincode
         };
 
         let findConditions={
