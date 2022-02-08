@@ -111,19 +111,19 @@ exports.getCustomers=async(req,res)=>{
         let {user}=req;
         user=mongoose.Types.ObjectId(JSON.parse(user));
         let vendorcustomers=await Usersubscription.aggregate([
-            {$match:{vendor:user,status:true}},
+            {$match:{vendor:user}},
             {$lookup:{
                 from:'users',
                 localField:'userid',
                 foreignField:'_id',
                 as:'customer_details'
             }},
-            {$lookup:{
-                from:'vendorproducts',
-                localField:'productid',
-                foreignField:'_id',
-                as:'product_details'
-            }},
+            // {$lookup:{
+            //     from:'vendorproducts',
+            //     localField:'productid',
+            //     foreignField:'_id',
+            //     as:'product_details'
+            // }},
 
         ]).allowDiskUse(true);
         res.status(200).json(successmessage('All Customers',vendorcustomers));

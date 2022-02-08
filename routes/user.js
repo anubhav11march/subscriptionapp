@@ -41,4 +41,15 @@ router.get(
     Usercontroller.getCategoryProducts
 )
 
+router.get(
+    '/categories',
+    Usercontroller.getCategories
+)
+
+router.get(
+    '/searchvendor',
+    auth,
+    Usercontroller.getVendors
+)
+
 module.exports=router;

@@ -174,6 +174,10 @@ exports.getImage = (params, res) => {
 
 }
 
+exports.getCategories=[
+    "Milk"
+]
+
 exports.allskills = [
   "Accounting",
   "Advocacy",

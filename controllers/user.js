@@ -1,7 +1,6 @@
 const User = require('../model/user');
 const { generateToken, hashPassword, successmessage,
-    errormessage, verifypassword, sendRegisterEmail,
-    uploadAws, allskills, sendInviteEmail, sendForgotEmail
+    errormessage, verifypassword, getCategories
 } = require('../utils/util');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid')
@@ -122,7 +121,7 @@ exports.LoginUser = async (req, res) => {
 exports.UpdateDetails = async (req, res) => {
     try {
         let { user } = req;
-        let { name, email, address, pincode, type, shopname } = req.body;
+        let { name, email, address, pincode, type, shopname, bio } = req.body;
 
         if (!name || !email || !address || !pincode || !type) {
             return res.status(400).json(errormessage('All fields should be present!'));
@@ -130,6 +129,9 @@ exports.UpdateDetails = async (req, res) => {
 
         if(type==="vendor"){
             if(!shopname){
+                return res.status(400).json(errormessage('All fields should be present!'));
+            }
+            if(!bio){
                 return res.status(400).json(errormessage('All fields should be present!'));
             }
         }
@@ -154,6 +156,7 @@ exports.UpdateDetails = async (req, res) => {
 
         if(type==="vendor"){
             updates.shopname=shopname;
+            updates.bio=bio;
             findConditions['isVendor']=true;
         }
 
@@ -176,6 +179,32 @@ exports.getCategoryProducts=async(req,res)=>{
         }
         let products=await vendorproduct.find(findConditions);
         res.status(200).json(successmessage(products));
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.getCategories=async(req,res)=>{
+    res.status(200).json(successmessage("All categories",getCategories));
+}
+
+exports.getVendors=async(req,res)=>{
+    try{
+        let {phoneno}=req.query;
+
+        let findConditions={};
+        if(phoneno){
+            phoneno=phoneno.trim();
+            findConditions.phoneno=phoneno;
+        }
+
+        let vendor=await User.findOne({phoneno});
+        if(!vendor){
+            res.status(404).json(successmessage("No Vendor found!"));
+        }
+        res.status(200).json(successmessage("Vendor Details",vendor));
+
+
     }catch(err){
         res.status(400).json(errormessage(err.message));
     }

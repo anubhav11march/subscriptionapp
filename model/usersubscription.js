@@ -2,8 +2,11 @@ const mongoose=require('mongoose');
 
 const UserSubscriptionSchema= new mongoose.Schema({
     userid:mongoose.Types.ObjectId,
-    productid:mongoose.Types.ObjectId,
+    productName:String,
+    category:String,
+    // productid:mongoose.Types.ObjectId,
     vendor:mongoose.Types.ObjectId,
+    priceperquantity:Number,
     quantity:Number,
     interval:String,
     amount:Number,

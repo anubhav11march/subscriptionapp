@@ -24,6 +24,7 @@ const UserSchema= new mongoose.Schema({
     image:String,
     admin:Boolean,
     shopname:String,
+    bio:String,
     adminverified:{
         type:Boolean,
         default:false
