@@ -172,3 +172,63 @@ exports.getSubscription = async (req, res) => {
     }
 }
 
+exports.addCustomSubscription=async(req,res)=>{
+    try{
+        let { user } = req;
+        let {  vendorname,quantity, interval, amount, productname, category, priceperquantity,vendorphoneno } = req.body;
+
+        if ( !vendorname||!quantity || !interval || !amount || !productname || !category || !priceperquantity||!vendorphoneno) {
+            return res.status(400).json(errormessage("All fields should be present!"));
+        }
+
+        user = mongoose.Types.ObjectId(JSON.parse(user));
+
+        vendorphoneno=vendorphoneno.trim();
+        vendorname=vendorname.trim();
+
+        // checking valid phone no.
+        let reg = "(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}";
+        let phonereg = new RegExp(reg);
+        console.log(phonereg.test(vendorphoneno));
+        if (!phonereg.test(vendorphoneno)) {
+            return res.status(400).json(errormessage("Enter valid Phone Number"));
+        }
+
+        // let vendordetails=await User.findOne({phoneno:vendorphoneno});
+        // if(!vendordetails){
+        //     return res.status(404).json(errormessage("No Vendor Found!"));
+        // }
+        if (!getCategories.includes(category)) {
+            return res.status(400).json(errormessage("Category Invalid!"));
+        }
+
+        productname = productname.trim();
+        productname=productname.toLowerCase();
+
+        const isMatch = await Usersubscription.findOne({ userid: user, productName:productname });
+        if (isMatch) {
+            return res.status(200).json(errormessage('You have already subscribed to this product! Change Product Name!'));
+        }
+
+        let usersubscribe = new Usersubscription({
+            // productid: mongoose.Types.ObjectId(productid),
+            vendorname,
+            vendorphoneno,
+            productName: productname,
+            category,
+            priceperquantity,
+            userid: user,
+            quantity: parseInt(quantity),
+            interval,
+            amount: parseInt(amount),
+            status: false,
+            isCustom:true
+        });
+
+        await usersubscribe.save();
+        res.status(200).json(successmessage('Successfuly Subscribed!', usersubscribe));
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
+

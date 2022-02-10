@@ -111,7 +111,7 @@ exports.LoginUser = async (req, res) => {
 
         let token = generateToken(JSON.stringify(user._id));
 
-        res.status(200).json(successmessage("Logged In Successfuly!", token));
+        res.status(200).json(successmessage("Logged In Successfuly!", {token,type}));
 
     } catch (err) {
         res.status(400).json(errormessage(err.message));
@@ -200,7 +200,7 @@ exports.getVendors=async(req,res)=>{
 
         let vendor=await User.findOne({phoneno});
         if(!vendor){
-            res.status(404).json(successmessage("No Vendor found!"));
+            return res.status(404).json(successmessage("No Vendor found!"));
         }
         res.status(200).json(successmessage("Vendor Details",vendor));
 

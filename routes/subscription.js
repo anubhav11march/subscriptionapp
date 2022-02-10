@@ -36,11 +36,14 @@ router.patch(
     Subscriptioncontroller.editSubscription
 )
 
-// router.get(
-//     '/getsubscription',
-//     auth,
-//     Subscriptioncontroller.getSubscription
-// )
+router.post(
+    '/addcustomsubscription',
+    auth,
+    upload.none(),
+    Subscriptioncontroller.addCustomSubscription
+)
+
+
 
 module.exports=router;
 

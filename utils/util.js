@@ -5,6 +5,7 @@ const SibApiV3Sdk = require('sib-api-v3-sdk');
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
 var apiKey = defaultClient.authentications['api-key'];
 apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+const Razorpay = require('razorpay');
 var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 const fs = require('fs');
 const path = require('path');
@@ -13,6 +14,13 @@ const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_SECRET,
 })
+
+
+// exports.razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// })
+
 
 
 exports.generateToken = (userid) => {
