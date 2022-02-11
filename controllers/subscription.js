@@ -3,7 +3,7 @@ const Vendorproduct = require('../model/vendorproduct');
 const { successmessage, errormessage } = require('../utils/util');
 const mongoose = require('mongoose');
 const User=require('../model/user');
-const { getCategories } = require('../utils/util');
+const { getCategories, randomDate} = require('../utils/util');
 
 exports.Subscribe = async (req, res) => {
     try {
@@ -205,7 +205,7 @@ exports.addCustomSubscription=async(req,res)=>{
         productname = productname.trim();
         productname=productname.toLowerCase();
 
-        const isMatch = await Usersubscription.findOne({ userid: user, productName:productname });
+        const isMatch = await Usersubscription.findOne({ userid:user,vendorphoneno, productName:productname });
         if (isMatch) {
             return res.status(200).json(errormessage('You have already subscribed to this product! Change Product Name!'));
         }
