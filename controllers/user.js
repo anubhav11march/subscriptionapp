@@ -78,7 +78,7 @@ exports.LoginUser = async (req, res) => {
         console.log(req.headers);
         let { userinfo, password } = req.body;
 
-        if (!userinfo || !password || !type) {
+        if (!userinfo || !password ) {
             return res.status(400).json(errormessage("All fields should be present!"));
         }
 
