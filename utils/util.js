@@ -320,3 +320,21 @@ exports.todayDate=(date2)=>{
 	}
 	return `${year}-${month}-${date1}`;
 }
+
+exports.randomDate=(date2,days)=>{
+  let date = date2?date2: new Date();
+  date.setDate(date.getDate()+days);
+	const year = date.getFullYear();
+	let month;
+	if (date.getMonth() + 1 >= 10) {
+		month = `${date.getMonth() + 1}`;
+	} else {
+		month = `0${date.getMonth() + 1}`;
+	}
+	let date1 = date.getDate();
+	if (date1 < 10) {
+		date1 = `0${date1}`;
+	}
+  
+	return `${year}-${month}-${date1}`;
+}

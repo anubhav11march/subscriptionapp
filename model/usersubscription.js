@@ -12,7 +12,14 @@ const UserSubscriptionSchema= new mongoose.Schema({
     priceperquantity:Number,
     quantity:Number,
     interval:String,
-    amount:Number,
+    duedate:String,
+    delivereddates:[
+        {type:String},
+    ],
+    notdelivered:[
+        {type:String},
+    ],
+    amount:Number,  // total amount for subscription
     status:{
         type:Boolean,
         default:false

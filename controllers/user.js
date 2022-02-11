@@ -76,7 +76,7 @@ exports.UserSignUp = async (req, res) => {
 exports.LoginUser = async (req, res) => {
     try {
         console.log(req.headers);
-        let { userinfo, password, type } = req.body;
+        let { userinfo, password } = req.body;
 
         if (!userinfo || !password || !type) {
             return res.status(400).json(errormessage("All fields should be present!"));
@@ -91,13 +91,13 @@ exports.LoginUser = async (req, res) => {
             return res.status(400).json(errormessage("Email,phoneno or password incorrect!"));
         }
 
-        if (type === "vendor" && !user.isVendor) {
-            return res.status(400).json(errormessage("Login as Vendor failed!"));
-        }
+        // if (type === "vendor" && !user.isVendor) {
+        //     return res.status(400).json(errormessage("Login as Vendor failed!"));
+        // }
 
-        if (type === "user" && user.isVendor) {
+        // if (type === "user" && user.isVendor) {
 
-        }
+        // }
 
         if (!verifypassword(password, user.password)) {
             return res.status(400).json(errormessage("Email or password incorrect!"));
@@ -110,6 +110,7 @@ exports.LoginUser = async (req, res) => {
 
 
         let token = generateToken(JSON.stringify(user._id));
+        let type=user.isVendor?"vendor":"buyer";
 
         res.status(200).json(successmessage("Logged In Successfuly!", {token,type}));
 
