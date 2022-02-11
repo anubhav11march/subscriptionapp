@@ -43,6 +43,13 @@ router.post(
     Subscriptioncontroller.addCustomSubscription
 )
 
+router.post(
+    '/undelivered_update',
+    auth,
+    upload.none(),
+    Subscriptioncontroller
+)
+
 
 
 module.exports=router;

@@ -232,3 +232,17 @@ exports.addCustomSubscription=async(req,res)=>{
     }
 }
 
+exports.postUndelivered=async(req,res)=>{
+    try{
+        let {date,sub_id}=req.body;
+        if(!date||!sub_id){
+            return res.status(400).json(errormessage("All fields should be present!"));
+        }
+
+        
+
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
+

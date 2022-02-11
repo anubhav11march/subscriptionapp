@@ -182,8 +182,12 @@ exports.getImage = (params, res) => {
 
 }
 
-exports.getCategories=[
-    "Milk"
+exports.getCategories = [
+  "Milk",
+  "Newspaper",
+  "Grocery",
+  "Dairy",
+  "Custom"
 ]
 
 exports.allskills = [
@@ -297,44 +301,44 @@ exports.challenges = [{
 
   ],
   Pros: [
-    "Do not complain" ,
-    "Learn a new word everyday" ,
-    "Work on your side hustle continuously", 
+    "Do not complain",
+    "Learn a new word everyday",
+    "Work on your side hustle continuously",
     "No Gossiping"
   ]
 }]
 
 
-exports.todayDate=(date2)=>{
-  let date = date2?date2: new Date();
-	const year = date.getFullYear();
-	let month;
-	if (date.getMonth() + 1 >= 10) {
-		month = `${date.getMonth() + 1}`;
-	} else {
-		month = `0${date.getMonth() + 1}`;
-	}
-	let date1 = date.getDate();
-	if (date1 < 10) {
-		date1 = `0${date1}`;
-	}
-	return `${year}-${month}-${date1}`;
+exports.todayDate = (date2) => {
+  let date = date2 ? date2 : new Date();
+  const year = date.getFullYear();
+  let month;
+  if (date.getMonth() + 1 >= 10) {
+    month = `${date.getMonth() + 1}`;
+  } else {
+    month = `0${date.getMonth() + 1}`;
+  }
+  let date1 = date.getDate();
+  if (date1 < 10) {
+    date1 = `0${date1}`;
+  }
+  return `${year}-${month}-${date1}`;
 }
 
-exports.randomDate=(date2,days)=>{
-  let date = date2?date2: new Date();
-  date.setDate(date.getDate()+days);
-	const year = date.getFullYear();
-	let month;
-	if (date.getMonth() + 1 >= 10) {
-		month = `${date.getMonth() + 1}`;
-	} else {
-		month = `0${date.getMonth() + 1}`;
-	}
-	let date1 = date.getDate();
-	if (date1 < 10) {
-		date1 = `0${date1}`;
-	}
-  
-	return `${year}-${month}-${date1}`;
+exports.randomDate = (date2, days) => {
+  let date = date2 ? date2 : new Date();
+  date.setDate(date.getDate() + days);
+  const year = date.getFullYear();
+  let month;
+  if (date.getMonth() + 1 >= 10) {
+    month = `${date.getMonth() + 1}`;
+  } else {
+    month = `0${date.getMonth() + 1}`;
+  }
+  let date1 = date.getDate();
+  if (date1 < 10) {
+    date1 = `0${date1}`;
+  }
+
+  return `${year}-${month}-${date1}`;
 }
