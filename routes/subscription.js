@@ -47,7 +47,7 @@ router.post(
     '/undelivered_update',
     auth,
     upload.none(),
-    Subscriptioncontroller
+    // Subscriptioncontroller
 )
 
 
