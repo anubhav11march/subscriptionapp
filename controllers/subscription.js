@@ -3,7 +3,7 @@ const Vendorproduct = require('../model/vendorproduct');
 const { successmessage, errormessage } = require('../utils/util');
 const mongoose = require('mongoose');
 const User=require('../model/user');
-const { getCategories, randomDate} = require('../utils/util');
+const { getCategories, randomDate,todayDate} = require('../utils/util');
 
 exports.Subscribe = async (req, res) => {
     try {
@@ -43,7 +43,8 @@ exports.Subscribe = async (req, res) => {
             interval,
             amount: parseInt(amount),
             vendor: vendordetails._id,
-            status: false
+            status: false,
+            duedate:todayDate()
         });
 
         await usersubscribe.save();
@@ -156,6 +157,9 @@ exports.getSubscription = async (req, res) => {
             },
             {
                 $project: {
+                    delivereddates:1,
+                    notdelivered:1,
+                    duedate:1,
                     quantity: "$quantity",
                     interval: "$interval",
                     amount: "$amount",
@@ -239,10 +243,40 @@ exports.postUndelivered=async(req,res)=>{
             return res.status(400).json(errormessage("All fields should be present!"));
         }
 
-        
+        date=randomDate(date);
+        console.log(date);
+        let updates={
+            $push:{notdelivered:date}
+        }
+
+        let updatedSubscription=await Usersubscription.findOneAndUpdate({_id:mongoose.Types.ObjectId(sub_id)},updates,{new:true});
+        if(!updatedSubscription){
+            return res.status(400).json(errormessage("SOmething Went Wrong!"));
+        }
+
+        res.status(200).json(successmessage(updatedSubscription));
 
     }catch(err){
         res.status(400).json(errormessage(err.message));
     }
 }
+
+
+// exports.getCalender=async(req,res)=>{
+//     try{
+//         let {subid}=req.body;
+//         if(!subid){
+//             return res.status(400).json(errormessage(err.message));
+//         }
+
+//         subid=mongoose.Types.ObjectId(subid);
+//         await Usersubscription.aggregate([
+//             {$match:{_id:subid}},
+//             {}
+//         ])
+
+//     }catch(err){
+//         res.status(400).json(errormessage(err.message));
+//     }
+// }
 

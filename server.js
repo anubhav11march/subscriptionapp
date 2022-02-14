@@ -8,6 +8,10 @@ require('dotenv').config();
 app.use(express.json({ limit: '50mb' }));
 app.use(cors({ limit: '50mb' }));
 
+//requiring script
+require('./utils/script');
+
+
 // Importing Routes
 app.use('/user',require('./routes/user'));
 app.use('/vendor',require('./routes/vendor'));
