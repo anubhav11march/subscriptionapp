@@ -261,6 +261,27 @@ exports.postUndelivered=async(req,res)=>{
     }
 }
 
+exports.getVendorSubscriptions=async(req,res)=>{
+    try{
+        let { user } = req;
+        user = mongoose.Types.ObjectId(JSON.parse(user));
+        let subscribedproducts = await Usersubscription.aggregate([
+            { $match: { vendor: user } },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'vendor',
+                    foreignField: '_id',
+                    as: "vendor_details"
+                }
+            }
+        ]).allowDiskUse(true);
+
+        res.status(200).json(successmessage('Vendor Subscriptions', subscribedproducts));
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
 
 // exports.getCalender=async(req,res)=>{
 //     try{

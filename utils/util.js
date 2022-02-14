@@ -308,6 +308,35 @@ exports.challenges = [{
   ]
 }]
 
+exports.sendForgotEmail = async (email, username,code) => {
+
+  let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+  sendSmtpEmail = {
+    sender: {
+      name: 'MyBud',
+      email: 'noreply@eramcapital.com',
+    },
+    to: [
+      {
+        email,
+        name: username,
+      },
+    ],
+    subject: `Forgot Password`,
+
+    htmlContent: `<h1>Reset Password</h1>
+    <h2>Hello ${username}</h2>
+    p> OTP to reset your password is ${code},
+    </div>`,
+  }
+
+  try {
+    let res = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    return res;
+  } catch (err) {
+    return this.errormessage(err.message)
+  }
+}
 
 exports.todayDate = (date2) => {
   let date = date2 ? date2 : new Date();

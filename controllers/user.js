@@ -1,6 +1,6 @@
 const User = require('../model/user');
 const { generateToken, hashPassword, successmessage,
-    errormessage, verifypassword, getCategories
+    errormessage, verifypassword, getCategories, sendForgotEmail
 } = require('../utils/util');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid')
@@ -207,6 +207,81 @@ exports.getVendors=async(req,res)=>{
 
 
     }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.forgotpassword = async (req, res) => {
+    try {
+        let { phoneno } = req.body;
+        if (!phoneno) {
+            return res.status(400).json(successmessage("Phoneno field should be given!"));
+        }
+        phoneno=phoneno.trim();
+        let user = await User.findOne({ phoneno });
+        if (!user) {
+            return res.status(400).json(errormessage("User not found with the given phoneno!"));
+        }
+        let confirmationcode = Math.floor(1000 + Math.random() * 9000);
+        user.confirmationcode = confirmationcode;
+        if(!user.email){
+            return res.status(400).json(errormessage("No Email associated with this account!"));
+        }
+        await sendForgotEmail(user.email, user.username, confirmationcode);
+        await user.save();
+        res.status(200).json(successmessage("Reset mail sent! Check your emailid!"));
+
+    } catch (err) {
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.resetPassword = async (req, res) => {
+
+    try {
+        let { phoneno, password } = req.body;
+
+        if (!phoneno || !password) {
+            return res.status(400).json(errormessage("Provide email or password"));
+        }
+
+        let user = await User.findOne({ phoneno });
+        if (!user) {
+            return res.status(400).json(errormessage("No user found!"));
+        }
+
+        //hashing the password
+        let hashedpassword = hashPassword(password);
+        let updatedUser = await User.findOneAndUpdate({ phoneno }, { $set: { password: hashedpassword } }, { new: true });
+        res.status(200).json(successmessage("Password Reset Successful!", updatedUser));
+    } catch (err) {
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.verifyCode = async (req, res) => {
+    try {
+        let { code, phoneno } = req.body;
+
+        if (!code || !phoneno ) {
+            return res.status(400).json(errormessage("All fields must be present!"));
+        }
+
+        let findConditions = {
+            phoneno
+        };
+
+        findConditions['confirmationcode'] = code;
+
+        let user = await User.findOne(findConditions);
+        if (!user) {
+            return res.status(404).json(errormessage("Not Valid code!"));
+        }
+
+        // user.status = true;
+        // await user.save();
+        res.status(200).json(successmessage("Verified Succesfuly!", user))
+    } catch (err) {
         res.status(400).json(errormessage(err.message));
     }
 }

@@ -29,6 +29,13 @@ router.get(
     Subscriptioncontroller.getSubscriptions
 )
 
+router.get(
+    '/getsubscription',
+    auth,
+    Subscriptioncontroller.getSubscription
+)
+
+
 router.patch(
     '/editsubscription',
     auth,
@@ -48,6 +55,12 @@ router.post(
     auth,
     upload.none(),
     Subscriptioncontroller.postUndelivered
+)
+
+router.get(
+    '/getvendorsubscriptions',
+    auth,
+    Subscriptioncontroller.getVendorSubscriptions
 )
 
 

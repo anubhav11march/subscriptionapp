@@ -52,4 +52,22 @@ router.get(
     Usercontroller.getVendors
 )
 
+router.post(
+    '/forgotpassword',
+    upload.none(),
+    Usercontroller.forgotpassword
+)
+
+router.post(
+    '/resetpassword',
+    upload.none(),
+    Usercontroller.resetPassword
+)
+
+router.post(
+    '/verifycode',
+    upload.none(),
+    Usercontroller.verifyCode
+);
+
 module.exports=router;
