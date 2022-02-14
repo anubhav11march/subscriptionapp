@@ -32,3 +32,5 @@ async function updateSubscriptions(){
         console.log(err);
     }
 }
+
+cron.schedule('55 23 * * *',updateSubscriptions)
