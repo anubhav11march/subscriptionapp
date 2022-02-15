@@ -155,18 +155,8 @@ exports.getSubscription = async (req, res) => {
                     as: 'vendor_details'
                 }
             },
-            {
-                $project: {
-                    delivereddates:1,
-                    notdelivered:1,
-                    duedate:1,
-                    quantity: "$quantity",
-                    interval: "$interval",
-                    amount: "$amount",
-                    product_details: { $first: "$product_details" },
-                    vendor_details: { $first: "$vendor_details" }
-                }
-            }
+            {$addFields:{product_details:{ $first: "$product_details" }}},
+            {$addFields:{vendor_details: { $first: "$vendor_details" }}},
         ]).allowDiskUse(true);
 
         res.status(200).json(successmessage("Subscription Details", subscriptiondetails));
