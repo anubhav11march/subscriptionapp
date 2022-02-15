@@ -27,6 +27,10 @@ const UserSubscriptionSchema= new mongoose.Schema({
     isCustom:{
         type:Boolean,
         default:false
+    },
+    ishold:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true})
 

@@ -232,7 +232,7 @@ exports.postUndelivered=async(req,res)=>{
         if(!date||!sub_id){
             return res.status(400).json(errormessage("All fields should be present!"));
         }
-        console.log('hello',date)
+        // console.log('hello',date)
         date=randomDate(date);
         console.log(date);
         let updates={
@@ -291,4 +291,48 @@ exports.getVendorSubscriptions=async(req,res)=>{
 //     }
 // }
 
+exports.postdelivereddate=async(req,res)=>{
+    try{
+        let {date,sub_id}=req.body;
 
+        if(!date||!sub_id){
+            return res.status(400).json(errormessage("All fields should be present!"));
+        }
+        date=randomDate(date);
+
+        let updates={
+            $push:{delivereddates:date}
+        }
+
+        let updatedSubscription=await Usersubscription.findOneAndUpdate({_id:mongoose.Types.ObjectId(sub_id)},updates,{new:true});
+        if(!updatedSubscription){
+            return res.status(400).json(errormessage("SOmething Went Wrong!"));
+        }
+
+        res.status(200).json(successmessage(updatedSubscription));
+
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.putonhold=async(req,res)=>{
+    try{
+        let {sub_id,status}=req.body;
+
+        if(!sub_id){
+            return res.status(400).json(errormessage("All fields should be present!"));
+        }  
+        
+        let updatedsub=await Usersubscription.findOneAndUpdate({_id:mongoose.Types.ObjectId(sub_id)},{$set:{ishold:status}},{new:true})
+        
+        if(!updatedsub){
+            return res.status(400).json(errormessage("SOmething Went Wrong!"));
+        }
+
+        res.status(200).json(successmessage(updatedsub));
+
+    }catch(err){
+        res.status(400).json(err.message);
+    }
+}

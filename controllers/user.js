@@ -285,3 +285,19 @@ exports.verifyCode = async (req, res) => {
         res.status(400).json(errormessage(err.message));
     }
 }
+
+exports.getUserdetails=async(req,res)=>{
+    try{
+        let {userid}=req.query;
+        userid=mongoose.Types.ObjectId(userid);
+
+        let user=await User.findOne({_id:userid});
+        if(!user){
+            return res.status(404).json(errormessage("User not found!"));
+        }
+        res.status(200).json(successmessage("user Details",user));
+
+    }catch(err){
+        res.status(400).json(errormessage(err.message));
+    }
+}

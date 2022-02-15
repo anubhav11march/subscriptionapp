@@ -70,4 +70,11 @@ router.post(
     Usercontroller.verifyCode
 );
 
+router.get(
+    '/userdetails',
+    auth,
+    // upload.none(),
+    Usercontroller.getUserdetails
+);
+
 module.exports=router;

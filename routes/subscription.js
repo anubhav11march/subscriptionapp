@@ -62,6 +62,20 @@ router.get(
     auth,
     Subscriptioncontroller.getVendorSubscriptions
 )
+router.post(
+    '/delivered_update',
+    auth,
+    upload.none(),
+    Subscriptioncontroller.postdelivereddate
+)
+
+router.post(
+    '/putholdstatus',
+    auth,
+    upload.none(),
+    Subscriptioncontroller.putonhold
+)
+
 
 
 
