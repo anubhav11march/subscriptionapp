@@ -232,7 +232,7 @@ exports.postUndelivered=async(req,res)=>{
         if(!date||!sub_id){
             return res.status(400).json(errormessage("All fields should be present!"));
         }
-
+        console.log('hello',date)
         date=randomDate(date);
         console.log(date);
         let updates={
@@ -290,4 +290,5 @@ exports.getVendorSubscriptions=async(req,res)=>{
 //         res.status(400).json(errormessage(err.message));
 //     }
 // }
+
 

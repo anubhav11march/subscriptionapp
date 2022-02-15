@@ -354,8 +354,10 @@ exports.todayDate = (date2) => {
   return `${year}-${month}-${date1}`;
 }
 
-exports.randomDate = (date2, days) => {
-  let date = date2 ? date2 : new Date();
+exports.randomDate = (date2, days=0) => {
+  console.log('fdsfs',date2);
+  let date = date2 ? new Date(date2) : new Date();
+  console.log('sdf');
   date.setDate(date.getDate() + days);
   const year = date.getFullYear();
   let month;

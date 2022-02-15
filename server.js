@@ -31,5 +31,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
 	console.log('error in connection', err);
 });
+console.log(new Date())
+
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
