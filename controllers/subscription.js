@@ -324,6 +324,10 @@ exports.putonhold=async(req,res)=>{
             return res.status(400).json(errormessage("All fields should be present!"));
         }  
         
+        if(status===true||status===false){
+            return res.status(400).json(errormessage("Status value should be boolean!"));
+        }
+
         let updatedsub=await Usersubscription.findOneAndUpdate({_id:mongoose.Types.ObjectId(sub_id)},{$set:{ishold:status}},{new:true})
         
         if(!updatedsub){
