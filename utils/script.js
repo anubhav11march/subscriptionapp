@@ -34,5 +34,5 @@ async function updateSubscriptions(){
         console.log(err);
     }
 }
-updateSubscriptions();
+// updateSubscriptions();
 cron.schedule('55 23 * * *',updateSubscriptions)
