@@ -16,6 +16,7 @@ require('./utils/script');
 app.use('/user',require('./routes/user'));
 app.use('/vendor',require('./routes/vendor'));
 app.use('/subscription',require('./routes/subscription'));
+app.use('/purchase',require('./routes/payment'));
 
 const options = {
 	useNewUrlParser: true,
@@ -31,7 +32,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
 	console.log('error in connection', err);
 });
-console.log(new Date())
+
 
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));

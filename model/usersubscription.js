@@ -31,6 +31,16 @@ const UserSubscriptionSchema= new mongoose.Schema({
     ishold:{
         type:Boolean,
         default:false
+    },
+    purchasedOn:{
+        type:Date
+    },
+    ispayment:{
+        type:Boolean,
+        default:false
+    },
+    validTill:{
+        type:Date
     }
 },{timestamps:true})
 

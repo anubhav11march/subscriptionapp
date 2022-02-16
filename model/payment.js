@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-require('@mongoosejs/double')
+// require('@mongoosejs/double')
 
 var paymentSchema = new mongoose.Schema(
   {
