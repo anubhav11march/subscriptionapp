@@ -1,5 +1,5 @@
 const Payment = require('../model/payment');
-const { successmessage, errormessage, razorpay,randomDate } = require('../utils/util');
+const { successmessage, errormessage, razorpay , randomDate } = require('../utils/util');
 const mongoose = require('mongoose');
 const User = require('../model/user');
 const Subsciption = require('../model/usersubscription');
@@ -20,21 +20,25 @@ exports.createSubscriptionorder = async (req, res) => {
         subscriptionId = mongoose.Types.ObjectId(subscriptionId);
 
         const subscription = await Subsciption.findOne({ _id: subscriptionId });
+        console.log(subscription);
 
         if (!subscription) throw new Error('Subscription not avaliable ', 400, null)
 
         const options = {
-            amount: subscription.amount,
+            amount: parseInt(subscription.amount)*100,
             currency: 'INR',
             receipt: shortid.generate(), //any unique id
             notes: {
                 desc: `Subscription purchased by ${user1.name}`,
             },
         }
-
+        console.log(1);
+        console.log(razorpay);
         const response = await razorpay.orders.create(options);
-
-        if (!response) throw new Error('Error in order creation', 400, null)
+        console.log('dd',response)
+        if (!response) {
+            return res.status(400).json(errormessage("Something wrong with craeting order"))
+        }
 
         res.status(200).json(response);
     } catch (err) {
