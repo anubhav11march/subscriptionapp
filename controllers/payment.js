@@ -11,8 +11,8 @@ const usersubscription = require('../model/usersubscription');
 
 exports.createSubscriptionorder = async (req, res) => {
     try {
-        const { subscriptionId } = req.body;
-        const { user } = req;
+        let { subscriptionId } = req.body;
+        let { user } = req;
         user = mongoose.Types.ObjectId( JSON.parse(user));
 
         let user1 = await User.findOne({ _id: user });
@@ -45,7 +45,7 @@ exports.createSubscriptionorder = async (req, res) => {
 
 exports.PurchaseSubscription = async (req, res) => {
     try {
-        const {
+        let {
             orderCreationId, //from server response.id
             razorpayPaymentId, //returned by checkout from frontend
             razorpaySignature, //returned by checkout from frontend
