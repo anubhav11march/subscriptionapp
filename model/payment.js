@@ -25,6 +25,9 @@ var paymentSchema = new mongoose.Schema(
     paymentdate: {
       type: String
     },
+    ispayment:{
+      type:Boolean
+    },
     amount: {
       type: Number,
       default: null,

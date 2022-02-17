@@ -162,6 +162,9 @@ exports.UpdateDetails = async (req, res) => {
         }
 
         let updatedUser = await User.findOneAndUpdate(findConditions, { $set: updates }, { new: true });
+        if(!updatedUser){
+            return res.status(400).json(errormessage("Something went wrong!"));
+        }
         res.status(200).json(successmessage('Updated Successfuly!', updatedUser));
     } catch (err) {
         res.status(400).json(errormessage(err.message));
@@ -288,13 +291,10 @@ exports.verifyCode = async (req, res) => {
 
 exports.getUserdetails=async(req,res)=>{
     try{
-        // let {userid}=req.query;
-        // userid=mongoose.Types.ObjectId(userid);
 
         let {user}=req;
         console.log(user);
         user=mongoose.Types.ObjectId( JSON.parse(user));
-        console.log(1);
         let user1=await User.findOne({_id:user});
         if(!user1){
             return res.status(404).json(errormessage("User not found!"));

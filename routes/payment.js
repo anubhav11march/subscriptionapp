@@ -2,18 +2,21 @@ const express=require('express');
 const router=express.Router();
 const {auth}=require('../middleware/userauth');
 const PaymentController=require('../controllers/payment');
-
+const multer=require('multer');
+const upload=multer({});
 
 
 router.post(
-    '/purchase/createsubsciptionorder',
+    '/createsubsciptionorder',
     auth,
+    upload.none(),
     PaymentController.createSubscriptionorder
 )
 
 router.post(
-    '/purchase/subsciption',
+    '/subsciption',
     auth,
+    upload.none(),
     PaymentController.PurchaseSubscription
 )
 
