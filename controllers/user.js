@@ -292,8 +292,9 @@ exports.getUserdetails=async(req,res)=>{
         // userid=mongoose.Types.ObjectId(userid);
 
         let {user}=req;
-        user=mongoose.Types.ObjectId(user);
-
+        console.log(user);
+        user=mongoose.Types.ObjectId( JSON.parse(user));
+        console.log(1);
         let user1=await User.findOne({_id:user});
         if(!user1){
             return res.status(404).json(errormessage("User not found!"));
