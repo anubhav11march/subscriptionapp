@@ -13,7 +13,7 @@ exports.createSubscriptionorder = async (req, res) => {
     try {
         const { subscriptionId } = req.body;
         const { user } = req;
-        user = mongoose.Types.ObjectId(user);
+        user = mongoose.Types.ObjectId( JSON.parse(user));
 
         let user1 = await User.findOne({ _id: user });
 
@@ -54,7 +54,7 @@ exports.PurchaseSubscription = async (req, res) => {
         } = req.body
 
         let { user } = req;
-        user = mongoose.Types.ObjectId(user);
+        user = mongoose.Types.ObjectId( JSON.parse(user));
 
         if (!orderCreationId)
             throw new Error('Order creation ID is requiered', 400, null)
