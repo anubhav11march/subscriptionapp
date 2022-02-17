@@ -7,6 +7,10 @@ var paymentSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Users',
     },
+    vendor: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Users',
+    },
     subscriptionid: {
       type: mongoose.SchemaTypes.ObjectId
     },
@@ -18,9 +22,8 @@ var paymentSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Payment Id is required'],
     },
-    date: {
-      type: Date,
-      default: new Date(),
+    paymentdate: {
+      type: String
     },
     amount: {
       type: Number,
@@ -28,7 +31,7 @@ var paymentSchema = new mongoose.Schema(
       required: [true, 'Amount is required'],
     },
     status: {
-      type: String,
+      type: Boolean
     },
   },
   {

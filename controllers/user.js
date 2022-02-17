@@ -288,14 +288,17 @@ exports.verifyCode = async (req, res) => {
 
 exports.getUserdetails=async(req,res)=>{
     try{
-        let {userid}=req.query;
-        userid=mongoose.Types.ObjectId(userid);
+        // let {userid}=req.query;
+        // userid=mongoose.Types.ObjectId(userid);
 
-        let user=await User.findOne({_id:userid});
-        if(!user){
+        let {user}=req;
+        user=mongoose.Types.ObjectId(user);
+
+        let user1=await User.findOne({_id:user});
+        if(!user1){
             return res.status(404).json(errormessage("User not found!"));
         }
-        res.status(200).json(successmessage("user Details",user));
+        res.status(200).json(successmessage("user Details",user1));
 
     }catch(err){
         res.status(400).json(errormessage(err.message));

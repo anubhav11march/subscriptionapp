@@ -1,11 +1,12 @@
 const Payment = require('../model/payment');
-const { successmessage, errormessage, razorpay } = require('../utils/util');
+const { successmessage, errormessage, razorpay,randomDate } = require('../utils/util');
 const mongoose = require('mongoose');
 const User = require('../model/user');
 const Subsciption = require('../model/usersubscription');
 const shortid = require('shortid');
 const crypto = require('crypto');
 const usersubscription = require('../model/usersubscription');
+
 
 
 exports.createSubscriptionorder = async (req, res) => {
@@ -49,6 +50,7 @@ exports.PurchaseSubscription = async (req, res) => {
             razorpayPaymentId, //returned by checkout from frontend
             razorpaySignature, //returned by checkout from frontend
             subscriptionId,
+            vendorid
         } = req.body
 
         let { user } = req;
@@ -65,6 +67,9 @@ exports.PurchaseSubscription = async (req, res) => {
 
         if (!subscriptionId) {
             throw new Error('subscriptionId is requiered', 400, null)
+        }
+        if (!vendorid) {
+            throw new Error('vendorId is requiered', 400, null)
         }
 
         const subscription = await usersubscription.findById(mongoose.Types.ObjectId(subscriptionId));
@@ -86,7 +91,8 @@ exports.PurchaseSubscription = async (req, res) => {
                 orderId: orderCreationId,
                 paymentId: razorpayPaymentId,
                 status: 'Payment Success',
-                date: new Date(),
+                vendor:mongoose.Types.ObjectId(vendorid),
+                paymentdate: randomDate(),
                 amount: subscription.amount,
             })
 
@@ -123,6 +129,35 @@ exports.PurchaseSubscription = async (req, res) => {
 
 
     } catch (err) {
+        res.status(400).json(errormessage(err.message));
+    }
+}
+
+exports.getSalestoday=async(req,res)=>{
+    try{
+        let {user}=req;
+        user=mongoose.Types.ObjectId(user);
+
+        let saletoday=await Payment.aggregate([
+            {$match:{vendor:user,paymentdate:randomDate(),status:true}},
+            {$group:{
+                _id:"$date",
+                salestoday:{$sum:"$amount"}
+            }},
+            {$project:{
+                salestoday:1
+            }}
+            // {$lookup:{
+            //     from:'usersubscriptions',
+            //     localField:'subscriptionid',
+            //     foreignField:'_id',
+            //     as:'subscription_details'
+            // }}
+        ]).allowDiskUse(true);
+
+        res.status(200).json(successmessage('Sale Today',saletoday));
+
+    }catch(err){
         res.status(400).json(errormessage(err.message));
     }
 }
