@@ -14,7 +14,8 @@ async function updateSubscriptions(){
                     delivereddates:todayDate()
                 }
             }
-            console.log('ewf',randomDate("",1));
+            // console.log('hj',todayDate());
+            // console.log('ewf',randomDate("",1));
             await Subscription.findOneAndUpdate({_id:sub._id,notdelivered:{$nin:[todayDate()]}},initialupdate,{new:true});
             if(sub.interval==="Weekly"){
                 await Subscription.findOneAndUpdate({_id:sub._id},{$set:{duedate:randomDate("",7)}},{new:true});
@@ -34,5 +35,5 @@ async function updateSubscriptions(){
         console.log(err);
     }
 }
-// updateSubscriptions();
-cron.schedule('55 23 * * *',updateSubscriptions)
+//updateSubscriptions();
+cron.schedule('50 13 * * *',updateSubscriptions);
