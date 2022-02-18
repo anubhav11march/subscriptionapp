@@ -36,4 +36,4 @@ async function updateSubscriptions(){
     }
 }
 //updateSubscriptions();
-cron.schedule('50 13 * * *',updateSubscriptions);
+cron.schedule('00 14 * * *',updateSubscriptions);
