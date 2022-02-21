@@ -29,7 +29,8 @@ const UserSchema= new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    isVendor:Boolean
+    isVendor:Boolean,
+    fcmtoken:String
 })
 
 UserSchema.index({username:1,phoneno:1});

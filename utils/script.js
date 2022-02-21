@@ -7,7 +7,7 @@ const Subscription=require('../model/usersubscription');
 async function updateSubscriptions(){
     try{
         let todaycompletedsubs=await Subscription.find({duedate:todayDate()});
-        console.log(todaycompletedsubs);
+        console.log('fhhfg',todaycompletedsubs);
         await Promise.all(todaycompletedsubs.map(async sub=>{
             let initialupdate={
                 $push:{
@@ -29,11 +29,9 @@ async function updateSubscriptions(){
                 await Subscription.findOneAndUpdate({_id:sub._id},{$set:{duedate:randomDate("",14)}},{new:true});
             }
         }))
-
-
     }catch(err){
         console.log(err);
     }
 }
 //updateSubscriptions();
-cron.schedule('00 23 * * *',updateSubscriptions);
+cron.schedule('25 11 * * *',updateSubscriptions);
