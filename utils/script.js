@@ -36,4 +36,4 @@ async function updateSubscriptions(){
 //updateSubscriptions();
 // cron.schedule('30 11 * * *',updateSubscriptions);
 
-setInterval(updateSubscriptions,10000);
+setInterval(updateSubscriptions,24*60*60000);
